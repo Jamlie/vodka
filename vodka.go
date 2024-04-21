@@ -94,8 +94,8 @@ func (v *Vodka) MustRoute(pattern string) *Vodka {
 		panic("Route must start with /")
 	}
 
-	if pattern[len(pattern)-1] != '/' {
-		pattern += "/"
+	if pattern[len(pattern)-1] == '/' {
+		pattern = pattern[:len(pattern)-1]
 	}
 
 	v.route = pattern
