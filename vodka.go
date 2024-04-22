@@ -21,10 +21,7 @@ func New() *Vodka {
 }
 
 func (v *Vodka) Static(pattern, directory string) {
-	v.Handle(
-		pattern,
-		http.StripPrefix(pattern, http.FileServer(http.Dir(directory))),
-	)
+	v.Handle(pattern, http.FileServer(http.Dir(directory)))
 }
 
 func (v *Vodka) Use(next ...HandlerFunc) {

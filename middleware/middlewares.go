@@ -8,11 +8,11 @@ import (
 	"github.com/Jamlie/vodka/cors"
 )
 
-func Logger(c *vodka.Context) {
+func Logger(c vodka.Context) {
 	log.Println(c.Request().Method, c.Request().URL.Path)
 }
 
-func CORS(c *vodka.Context) {
+func CORS(c vodka.Context) {
 	c.Response().Header().Set("Access-Control-Allow-Origin", "*")
 	c.Response().Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
 	c.Response().Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
@@ -25,7 +25,7 @@ type CORSOptions struct {
 }
 
 func CORSWithConfig(options CORSOptions) vodka.HandlerFunc {
-	return func(ctx *vodka.Context) {
+	return func(ctx vodka.Context) {
 		origin := ctx.Request().Header.Get("Origin")
 		if originIsValid(origin, options.AllowedOrigins) {
 			ctx.Response().Header().Set("Access-Control-Allow-Origin", origin)
