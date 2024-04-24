@@ -87,7 +87,7 @@ func (v *Vodka) HEAD(pattern string, handler HandlerFunc, nextFn ...HandlerFunc)
 	v.httpHandler(http.MethodHead, v.route+pattern, handler, nextFn...)
 }
 
-func (v *Vodka) MustRoute(pattern string) *Vodka {
+func (v *Vodka) Route(pattern string) *Vodka {
 	if pattern[0] != '/' {
 		panic("Route must start with /")
 	}
