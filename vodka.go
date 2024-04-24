@@ -40,9 +40,10 @@ func (v *Vodka) httpHandler(
 ) {
 	v.HandleFunc(pattern, func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == method {
-			c := &defaultContext{
-				w: w,
-				r: r,
+			c := &ctx{
+				w:   w,
+				r:   r,
+				url: r.URL,
 			}
 
 			for _, fn := range v.nextFn {
