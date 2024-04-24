@@ -2,6 +2,7 @@ package validator
 
 import (
 	"net/mail"
+	"regexp"
 	"strings"
 )
 
@@ -35,11 +36,7 @@ var (
 
 func Email(email string) bool {
 	_, err := mail.ParseAddress(email)
-	if err != nil {
-		return false
-	}
-
-	return true
+	return err == nil
 }
 
 func Password(password string, options PasswordOptions) bool {
@@ -70,6 +67,18 @@ func Password(password string, options PasswordOptions) bool {
 	}
 
 	if options.Space && !strings.ContainsAny(password, space) {
+		return false
+	}
+
+	return true
+}
+
+func PhoneNumber(phoneNumber string) bool {
+	matched, err := regexp.MatchString(
+		`^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$`,
+		phoneNumber,
+	)
+	if err != nil || !matched {
 		return false
 	}
 
