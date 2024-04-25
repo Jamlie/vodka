@@ -2,14 +2,21 @@ package middleware
 
 import (
 	"log"
+	"os"
 	"strings"
 
 	"github.com/Jamlie/vodka"
 	"github.com/Jamlie/vodka/cors"
 )
 
+var logger *log.Logger
+
+func init() {
+	logger = log.New(os.Stdout, "[VODKA]", log.LstdFlags)
+}
+
 func Logger(c vodka.Context) {
-	log.Println(c.Request().Method, c.Request().URL.Path)
+	logger.Println(c.Request().Method, c.Request().URL.Path)
 }
 
 func CORS(c vodka.Context) {
