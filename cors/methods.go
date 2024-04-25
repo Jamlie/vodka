@@ -8,6 +8,10 @@ const (
 	PUT     Method = "PUT"
 	DELETE  Method = "DELETE"
 	OPTIONS Method = "OPTIONS"
+	HEAD    Method = "HEAD"
+	PATCH   Method = "PATCH"
+	CONNECT Method = "CONNECT"
+	TRACE   Method = "TRACE"
 )
 
 type AllowedHeader = string
