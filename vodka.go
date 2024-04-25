@@ -41,9 +41,11 @@ func (v *Vodka) httpHandler(
 	v.HandleFunc(pattern, func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == method {
 			c := &ctx{
-				w:   w,
-				r:   r,
-				url: r.URL,
+				w:      w,
+				r:      r,
+				url:    r.URL,
+				method: r.Method,
+				body:   r.Body,
 			}
 
 			for _, fn := range v.nextFn {

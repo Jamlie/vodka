@@ -5,9 +5,12 @@ import (
 	"context"
 	"encoding/json"
 	"encoding/xml"
+	"io"
 	"mime/multipart"
 	"net/http"
 	"net/url"
+
+	"github.com/Jamlie/vodka/cors"
 )
 
 type Context interface {
@@ -24,14 +27,18 @@ type Context interface {
 	ParseForm() error
 	FormValue(string) string
 	ParseFile(string) (multipart.File, *multipart.FileHeader, error)
+	Body() io.ReadCloser
+	Method() cors.Method
 }
 
 type HandlerFunc func(c Context)
 
 type ctx struct {
-	w   http.ResponseWriter
-	r   *http.Request
-	url *url.URL
+	w      http.ResponseWriter
+	r      *http.Request
+	url    *url.URL
+	method cors.Method
+	body   io.ReadCloser
 }
 
 func Wrap(fn http.HandlerFunc) HandlerFunc {
@@ -114,4 +121,12 @@ func (c *ctx) FormValue(key string) string {
 
 func (c *ctx) ParseFile(key string) (multipart.File, *multipart.FileHeader, error) {
 	return c.Request().FormFile(key)
+}
+
+func (c *ctx) Body() io.ReadCloser {
+	return c.Request().Body
+}
+
+func (c *ctx) Method() cors.Method {
+	return c.method
 }
