@@ -124,7 +124,7 @@ func (c *ctx) ParseFile(key string) (multipart.File, *multipart.FileHeader, erro
 }
 
 func (c *ctx) Body() io.ReadCloser {
-	return c.Request().Body
+	return c.body
 }
 
 func (c *ctx) Method() cors.Method {
