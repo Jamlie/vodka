@@ -57,7 +57,7 @@ func TestValidatePassword(t *testing.T) {
 		}))
 	}
 
-	if !slices.EqualFunc(expected, actual, func(exp []bool, act []bool) bool {
+	if !slices.EqualFunc(expected, actual, func(exp, act []bool) bool {
 		return slices.Equal(exp, act)
 	}) {
 		t.Fatalf("%v is not %v", expected, actual)
