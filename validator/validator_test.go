@@ -57,9 +57,23 @@ func TestValidatePassword(t *testing.T) {
 		}))
 	}
 
-	for i, result := range expected {
-		if !slices.Equal(result, actual[i]) {
-			t.Fatalf("%v is not %v", expected, actual)
-		}
+	if !slices.EqualFunc(expected, actual, func(exp []bool, act []bool) bool {
+		return slices.Equal(exp, act)
+	}) {
+		t.Fatalf("%v is not %v", expected, actual)
+	}
+}
+
+func TestPhoneNumber(t *testing.T) {
+	inputs := []string{"12345678", "+35313441111", "123-456-7890", "1-2-3", "9874575621"}
+	expected := []bool{false, true, true, false, true}
+	actual := make([]bool, len(expected))
+
+	for i, input := range inputs {
+		actual[i] = validator.PhoneNumber(input)
+	}
+
+	if !slices.Equal(expected, actual) {
+		t.Fatalf("%v is not %v", expected, actual)
 	}
 }
