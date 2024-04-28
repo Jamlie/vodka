@@ -9,8 +9,6 @@ import (
 	"mime/multipart"
 	"net/http"
 	"net/url"
-
-	"github.com/Jamlie/vodka/cors"
 )
 
 type Context interface {
@@ -28,7 +26,7 @@ type Context interface {
 	FormValue(string) string
 	ParseFile(string) (multipart.File, *multipart.FileHeader, error)
 	Body() io.ReadCloser
-	Method() cors.Method
+	Method() string
 }
 
 type HandlerFunc func(c Context)
@@ -37,7 +35,7 @@ type ctx struct {
 	w      http.ResponseWriter
 	r      *http.Request
 	url    *url.URL
-	method cors.Method
+	method string
 	body   io.ReadCloser
 }
 
@@ -127,6 +125,6 @@ func (c *ctx) Body() io.ReadCloser {
 	return c.body
 }
 
-func (c *ctx) Method() cors.Method {
+func (c *ctx) Method() string {
 	return c.method
 }
