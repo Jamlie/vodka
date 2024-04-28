@@ -1,19 +1,5 @@
 package cors
 
-type Method = string
-
-const (
-	GET     Method = "GET"
-	POST    Method = "POST"
-	PUT     Method = "PUT"
-	DELETE  Method = "DELETE"
-	OPTIONS Method = "OPTIONS"
-	HEAD    Method = "HEAD"
-	PATCH   Method = "PATCH"
-	CONNECT Method = "CONNECT"
-	TRACE   Method = "TRACE"
-)
-
 type AllowedHeader = string
 
 const (

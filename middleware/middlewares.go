@@ -27,7 +27,7 @@ func CORS(c vodka.Context) {
 
 type CORSOptions struct {
 	AllowedOrigins []string
-	AllowedMethods []cors.Method
+	AllowedMethods []string
 	AllowedHeaders []cors.AllowedHeader
 }
 
@@ -48,7 +48,7 @@ func CORSWithConfig(options CORSOptions) vodka.HandlerFunc {
 	}
 }
 
-func joinMethods(methods []cors.Method) string {
+func joinMethods(methods []string) string {
 	return strings.Join(methods, ", ")
 }
 
