@@ -21,7 +21,7 @@ func New() *Vodka {
 }
 
 func (v *Vodka) Static(pattern, directory string) {
-	v.Handle(pattern, http.FileServer(http.Dir(directory)))
+	v.Handle(pattern, http.StripPrefix(pattern, http.FileServer(http.Dir(directory))))
 }
 
 func (v *Vodka) Use(next ...HandlerFunc) {
@@ -77,12 +77,6 @@ func (v *Vodka) Route(pattern string) *Vodka {
 
 func (v *Vodka) Start(port string) error {
 	return http.ListenAndServe(port, v)
-}
-
-func Make(handler http.HandlerFunc) HandlerFunc {
-	return func(c Context) {
-		handler(c.Response(), c.Request())
-	}
 }
 
 func (v *Vodka) httpHandler(
