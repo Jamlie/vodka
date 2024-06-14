@@ -29,7 +29,7 @@ type Context interface {
 	Method() string
 }
 
-type HandlerFunc func(c Context)
+type HandlerFunc func(c Context) error
 
 type ctx struct {
 	w      http.ResponseWriter
@@ -40,8 +40,9 @@ type ctx struct {
 }
 
 func Wrap(fn http.HandlerFunc) HandlerFunc {
-	return func(c Context) {
+	return func(c Context) error {
 		fn(c.Response(), c.Request())
+		return nil
 	}
 }
 

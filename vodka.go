@@ -1,10 +1,21 @@
 package vodka
 
 import (
+	"log/slog"
 	"net/http"
 	"reflect"
 	"runtime"
 )
+
+var HttpErrorHandler func(err error, c Context)
+
+func init() {
+	HttpErrorHandler = func(err error, c Context) {
+		slog.Error("Internal Server Error", err)
+
+		c.String(http.StatusInternalServerError, "Internal Server Error")
+	}
+}
 
 type Vodka struct {
 	nextFn map[string]HandlerFunc
@@ -95,11 +106,17 @@ func (v *Vodka) httpHandler(
 			}
 
 			for _, fn := range v.nextFn {
-				fn(c)
+				if err := fn(c); err != nil {
+					HttpErrorHandler(err, c)
+					return
+				}
 			}
 
 			for _, fn := range nextFn {
-				fn(c)
+				if err := fn(c); err != nil {
+					HttpErrorHandler(err, c)
+					return
+				}
 			}
 
 			handler(c)
