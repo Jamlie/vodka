@@ -11,7 +11,7 @@ var HttpErrorHandler func(err error, c Context)
 
 func init() {
 	HttpErrorHandler = func(err error, c Context) {
-		slog.Error("Internal Server Error", err)
+		slog.Error("Internal Server Error", "err", err)
 
 		c.String(http.StatusInternalServerError, "Internal Server Error")
 	}

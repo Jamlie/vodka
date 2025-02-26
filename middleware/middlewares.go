@@ -32,7 +32,7 @@ type CORSOptions struct {
 }
 
 func CORSWithConfig(options CORSOptions) vodka.HandlerFunc {
-	return func(ctx vodka.Context) {
+	return func(ctx vodka.Context) error {
 		origin := ctx.Request().Header.Get("Origin")
 		if originIsValid(origin, options.AllowedOrigins) {
 			ctx.Response().Header().Set("Access-Control-Allow-Origin", origin)
@@ -45,6 +45,8 @@ func CORSWithConfig(options CORSOptions) vodka.HandlerFunc {
 		ctx.Response().
 			Header().
 			Set("Access-Control-Allow-Headers", joinHeaders(options.AllowedHeaders))
+
+		return nil
 	}
 }
 
